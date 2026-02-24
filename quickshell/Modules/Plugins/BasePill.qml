@@ -140,6 +140,7 @@ Item {
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         onPressed: function (mouse) {
             if (mouse.button === Qt.RightButton) {
+                mouse.accepted = true;
                 const rPos = mouseArea.mapToItem(root, mouse.x, mouse.y);
                 root.rightClicked(rPos.x, rPos.y);
                 return;

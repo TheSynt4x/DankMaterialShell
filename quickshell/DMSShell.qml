@@ -519,6 +519,20 @@ Item {
     }
 
     LazyLoader {
+        id: widgetContextMenuPopoutLoader
+
+        active: true
+
+        WidgetContextMenuPopout {
+            id: widgetContextMenuPopout
+
+            Component.onCompleted: {
+                PopoutService.widgetContextMenuPopout = widgetContextMenuPopout;
+            }
+        }
+    }
+
+    LazyLoader {
         id: appDrawerLoader
 
         active: false

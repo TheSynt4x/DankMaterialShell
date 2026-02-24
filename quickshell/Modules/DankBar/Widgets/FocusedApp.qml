@@ -63,6 +63,21 @@ BasePill {
         }
     }
 
+    Connections {
+        target: PopoutService.widgetContextMenuPopout
+        ignoreUnknownSignals: true
+        function onShouldBeVisibleChanged() {
+            if (PopoutService.widgetContextMenuPopout && PopoutService.widgetContextMenuPopout.shouldBeVisible) {
+                if (tooltipLoader.active) {
+                    if (tooltipLoader.item) {
+                        tooltipLoader.item.hide();
+                    }
+                    tooltipLoader.active = false;
+                }
+            }
+        }
+    }
+
     function updateDesktopEntry() {
         if (activeWindow && activeWindow.appId) {
             const moddedId = Paths.moddedAppId(activeWindow.appId);
@@ -244,6 +259,9 @@ BasePill {
         acceptedButtons: Qt.NoButton
         onEntered: {
             if (root.isVerticalOrientation && activeWindow && activeWindow.appId && root.parentScreen) {
+                if (PopoutService.widgetContextMenuPopout && PopoutService.widgetContextMenuPopout.shouldBeVisible) {
+                    return;
+                }
                 tooltipLoader.active = true;
                 if (tooltipLoader.item) {
                     const globalPos = mapToGlobal(width / 2, height / 2);

@@ -47,9 +47,9 @@ Item {
         for (var i = 0; i < centerRepeater.count; i++) {
             const loader = centerRepeater.itemAt(i);
             if (loader && loader.active && loader.item) {
-                centerWidgets.push(loader.item);
+                centerWidgets.push(loader);
                 totalWidgets++;
-                totalSize += isVertical ? loader.item.height : loader.item.width;
+                totalSize += isVertical ? loader.height : loader.width;
             }
         }
 
@@ -104,16 +104,16 @@ Item {
                 continue;
 
             if (isOddConfigured && i === configuredMiddlePos && wrapper.active && wrapper.item)
-                configuredMiddleWidget = wrapper.item;
+                configuredMiddleWidget = wrapper;
             if (!isOddConfigured && i === configuredLeftPos && wrapper.active && wrapper.item)
-                configuredLeftWidget = wrapper.item;
+                configuredLeftWidget = wrapper;
             if (!isOddConfigured && i === configuredRightPos && wrapper.active && wrapper.item)
-                configuredRightWidget = wrapper.item;
+                configuredRightWidget = wrapper;
 
             if (wrapper.active && wrapper.item) {
-                centerWidgets.push(wrapper.item);
+                centerWidgets.push(wrapper);
                 totalWidgets++;
-                totalSize += isVertical ? wrapper.item.height : wrapper.item.width;
+                totalSize += isVertical ? wrapper.height : wrapper.width;
             }
         }
 

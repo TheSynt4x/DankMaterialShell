@@ -20,6 +20,7 @@ Item {
     property var hyprlandOverviewLoader: null
     property var parentScreen: null
     property int _desktopEntriesUpdateTrigger: 0
+    signal rightClicked(real rootX, real rootY)
     readonly property var sortedToplevels: {
         return CompositorService.filterCurrentWorkspace(CompositorService.sortedToplevels, screenName);
     }
@@ -766,11 +767,15 @@ Item {
 
         onClicked: mouse => {
             if (mouse.button === Qt.RightButton) {
-                if (CompositorService.isNiri) {
-                    NiriService.toggleOverview();
-                } else if (CompositorService.isHyprland && root.hyprlandOverviewLoader?.item) {
-                    root.hyprlandOverviewLoader.item.overviewOpen = !root.hyprlandOverviewLoader.item.overviewOpen;
-                }
+                const rPos = mapToItem(root, mouse.x, mouse.y);
+                root.rightClicked(rPos.x, rPos.y);
+
+                // Not sure what to do here. Help me out. If we want something like a configure button per widget, this has to be changed.
+                // if (CompositorService.isNiri) {
+                //     NiriService.toggleOverview();
+                // } else if (CompositorService.isHyprland && root.hyprlandOverviewLoader?.item) {
+                //     root.hyprlandOverviewLoader.item.overviewOpen = !root.hyprlandOverviewLoader.item.overviewOpen;
+                // }
             }
         }
 
@@ -1214,13 +1219,17 @@ Item {
                                 } catch (_) {}
                             }
                         } else if (mouse.button === Qt.RightButton) {
-                            if (CompositorService.isNiri) {
-                                NiriService.toggleOverview();
-                            } else if (CompositorService.isHyprland && root.hyprlandOverviewLoader?.item) {
-                                root.hyprlandOverviewLoader.item.overviewOpen = !root.hyprlandOverviewLoader.item.overviewOpen;
-                            } else if (CompositorService.isDwl && modelData?.tag !== undefined) {
-                                DwlService.toggleTag(root.screenName, modelData.tag);
-                            }
+                            const rPos = mouseArea.mapToItem(root, mouse.x, mouse.y);
+                            root.rightClicked(rPos.x, rPos.y);
+                            
+                            // Same as above. Not sure what to do here.
+                            // if (CompositorService.isNiri) {
+                            //     NiriService.toggleOverview();
+                            // } else if (CompositorService.isHyprland && root.hyprlandOverviewLoader?.item) {
+                            //     root.hyprlandOverviewLoader.item.overviewOpen = !root.hyprlandOverviewLoader.item.overviewOpen;
+                            // } else if (CompositorService.isDwl && modelData?.tag !== undefined) {
+                            //     DwlService.toggleTag(root.screenName, modelData.tag);
+                            // }
                         }
                     }
                 }

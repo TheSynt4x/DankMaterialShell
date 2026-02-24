@@ -17,6 +17,7 @@ Singleton {
     property var batteryPopout: null
     property var vpnPopout: null
     property var systemUpdatePopout: null
+    property var widgetContextMenuPopout: null
 
     property var settingsModal: null
     property var settingsModalLoader: null
@@ -43,6 +44,7 @@ Singleton {
 
     property string pendingThemeInstall: ""
     property string pendingPluginInstall: ""
+    property string pendingWidgetHighlight: ""
 
     function setPosition(popout, x, y, width, section, screen) {
         if (popout && popout.setTriggerPosition && arguments.length >= 6) {
@@ -275,6 +277,19 @@ Singleton {
             _settingsWantsOpen = true;
             _settingsWantsToggle = false;
             settingsModalLoader.activeAsync = true;
+        }
+    }
+
+    function openSettingsToWidget(widgetId: string) {
+        pendingWidgetHighlight = widgetId;
+        openSettingsWithTab("dankbar_widgets");
+    }
+
+    function openWidgetContextMenu(widgetId, x, y, width, section, screen, barPosition, barThickness, barSpacing, barConfig) {
+        if (widgetContextMenuPopout) {
+            widgetContextMenuPopout.widgetId = widgetId;
+            widgetContextMenuPopout.setTriggerPosition(x, y, width, section, screen, barPosition, barThickness, barSpacing, barConfig);
+            widgetContextMenuPopout.open();
         }
     }
 

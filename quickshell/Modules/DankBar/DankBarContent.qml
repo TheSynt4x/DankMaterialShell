@@ -244,15 +244,15 @@ Item {
     readonly property int launcherButtonWidth: 40
     readonly property int workspaceSwitcherWidth: 120
     readonly property int focusedAppMaxWidth: 456
-    readonly property int estimatedLeftSectionWidth: launcherButtonWidth + workspaceSwitcherWidth + focusedAppMaxWidth + (Theme.spacingXS * 2)
+    readonly property int leftSectionWidth: barWindow.isVertical ? vLeftSection.implicitHeight : hLeftSection.implicitWidth
     readonly property int rightSectionWidth: 200
     readonly property int clockWidth: 120
     readonly property int mediaMaxWidth: 280
     readonly property int weatherWidth: 80
-    readonly property bool validLayout: availableWidth > 100 && estimatedLeftSectionWidth > 0 && rightSectionWidth > 0
+    readonly property bool validLayout: availableWidth > 100 && leftSectionWidth > 0 && rightSectionWidth > 0
     readonly property int clockLeftEdge: (availableWidth - clockWidth) / 2
     readonly property int clockRightEdge: clockLeftEdge + clockWidth
-    readonly property int leftSectionRightEdge: estimatedLeftSectionWidth
+    readonly property int leftSectionRightEdge: leftSectionWidth
     readonly property int mediaLeftEdge: clockLeftEdge - mediaMaxWidth - Theme.spacingS
     readonly property int rightSectionLeftEdge: availableWidth - rightSectionWidth
     readonly property int leftToClockGap: Math.max(0, clockLeftEdge - leftSectionRightEdge)
@@ -386,6 +386,7 @@ Item {
             LeftSection {
                 id: hLeftSection
                 objectName: "leftSection"
+                clip: true
                 overrideAxisLayout: true
                 forceVerticalLayout: false
                 anchors {
@@ -412,6 +413,7 @@ Item {
             RightSection {
                 id: hRightSection
                 objectName: "rightSection"
+                clip: true
                 overrideAxisLayout: true
                 forceVerticalLayout: false
                 anchors {
@@ -470,6 +472,7 @@ Item {
             LeftSection {
                 id: vLeftSection
                 objectName: "leftSection"
+                clip: true
                 overrideAxisLayout: true
                 forceVerticalLayout: true
                 width: parent.width
@@ -524,6 +527,7 @@ Item {
             RightSection {
                 id: vRightSection
                 objectName: "rightSection"
+                clip: true
                 overrideAxisLayout: true
                 forceVerticalLayout: true
                 width: parent.width

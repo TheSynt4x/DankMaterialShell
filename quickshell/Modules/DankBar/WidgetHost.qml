@@ -1,5 +1,8 @@
 import QtQuick
+import QtQuick.Controls
+import qs.Common
 import qs.Services
+import qs.Widgets
 
 Loader {
     id: root
@@ -185,6 +188,54 @@ Loader {
             item.popoutService = PopoutService;
 
         registerWidgetIfEligible();
+    }
+
+    Connections {
+        target: root.item
+        ignoreUnknownSignals: true
+        function onRightClicked(rx, ry) {
+            const globalPos = root.mapToItem(null, 0, 0);
+            const currentScreen = root.parentScreen || Screen;
+            const barPosition = root.axis?.edge === "left" ? 2 : (root.axis?.edge === "right" ? 3 : (root.axis?.edge === "top" ? 0 : 1));
+
+            let triggerX = globalPos.x;
+            let triggerY = globalPos.y;
+            let triggerWidth = root.item ? root.item.width : 0;
+
+            if (barPosition === 2 || barPosition === 3) {
+                // Vertical bar: use exact mouse Y for vertical centering
+                triggerY += ry;
+            } else {
+                // Horizontal bar: use exact mouse X for horizontal centering
+                triggerX += rx;
+                triggerWidth = 0;
+            }
+
+            const adjustedPos = Qt.point(triggerX, triggerY);
+
+            const triggerPos = SettingsData.getPopupTriggerPosition(
+                adjustedPos,
+                currentScreen,
+                root.barThickness,
+                triggerWidth,
+                root.barSpacing,
+                barPosition,
+                root.barConfig
+            );
+
+            PopoutService.openWidgetContextMenu(
+                root.widgetId,
+                triggerPos.x,
+                triggerPos.y,
+                triggerPos.width,
+                root.section,
+                currentScreen,
+                barPosition,
+                root.barThickness,
+                root.barSpacing,
+                root.barConfig
+            );
+        }
     }
 
     Component.onDestruction: {

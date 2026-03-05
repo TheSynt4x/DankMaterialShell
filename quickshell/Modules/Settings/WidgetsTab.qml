@@ -449,8 +449,10 @@ Item {
             widgetObj.runningAppsCurrentWorkspace = SettingsData.runningAppsCurrentWorkspace;
             widgetObj.runningAppsCurrentMonitor = false;
         }
-        if (widgetId === "diskUsage")
+        if (widgetId === "diskUsage") {
             widgetObj.mountPath = "/";
+            widgetObj.diskUsageMode = 0;
+        }
         if (widgetId === "cpuUsage" || widgetId === "memUsage" || widgetId === "cpuTemp" || widgetId === "gpuTemp")
             widgetObj.minimumWidth = true;
         if (widgetId === "memUsage")
@@ -478,7 +480,7 @@ Item {
             "id": widget.id,
             "enabled": widget.enabled
         };
-        var keys = ["size", "selectedGpuIndex", "pciId", "mountPath", "minimumWidth", "showSwap", "showInGb", "mediaSize", "clockCompactMode", "focusedWindowCompactMode", "runningAppsCompactMode", "keyboardLayoutNameCompactMode", "runningAppsGroupByApp", "runningAppsCurrentWorkspace", "runningAppsCurrentMonitor", "showNetworkIcon", "showBluetoothIcon", "showAudioIcon", "showAudioPercent", "showVpnIcon", "showBrightnessIcon", "showBrightnessPercent", "showMicIcon", "showMicPercent", "showBatteryIcon", "showPrinterIcon", "showScreenSharingIcon", "barMaxVisibleApps", "barMaxVisibleRunningApps", "barShowOverflowBadge"];
+        var keys = ["size", "selectedGpuIndex", "pciId", "mountPath", "diskUsageMode", "minimumWidth", "showSwap", "showInGb", "mediaSize", "clockCompactMode", "focusedWindowCompactMode", "runningAppsCompactMode", "keyboardLayoutNameCompactMode", "runningAppsGroupByApp", "runningAppsCurrentWorkspace", "runningAppsCurrentMonitor", "showNetworkIcon", "showBluetoothIcon", "showAudioIcon", "showAudioPercent", "showVpnIcon", "showBrightnessIcon", "showBrightnessPercent", "showMicIcon", "showMicPercent", "showBatteryIcon", "showPrinterIcon", "showScreenSharingIcon", "barMaxVisibleApps", "barMaxVisibleRunningApps", "barShowOverflowBadge"];
         for (var i = 0; i < keys.length; i++) {
             if (widget[keys[i]] !== undefined)
                 result[keys[i]] = widget[keys[i]];
@@ -601,6 +603,18 @@ Item {
         setWidgetsForSection(sectionId, widgets);
     }
 
+    function handleDiskUsageModeChanged(sectionId, widgetIndex, mode) {
+        var widgets = getWidgetsForSection(sectionId).slice();
+        if (widgetIndex < 0 || widgetIndex >= widgets.length) {
+            setWidgetsForSection(sectionId, widgets);
+            return;
+        }
+        var newWidget = cloneWidgetData(widgets[widgetIndex]);
+        newWidget.diskUsageMode = mode;
+        widgets[widgetIndex] = newWidget;
+        setWidgetsForSection(sectionId, widgets);
+    }
+
     function handleOverflowSettingChanged(sectionId, widgetIndex, settingName, value) {
         var widgets = getWidgetsForSection(sectionId).slice();
         if (widgetIndex < 0 || widgetIndex >= widgets.length) {
@@ -666,6 +680,8 @@ Item {
                     item.pciId = widget.pciId;
                 if (widget.mountPath !== undefined)
                     item.mountPath = widget.mountPath;
+                if (widget.diskUsageMode !== undefined)
+                    item.diskUsageMode = widget.diskUsageMode;
                 if (widget.showNetworkIcon !== undefined)
                     item.showNetworkIcon = widget.showNetworkIcon;
                 if (widget.showBluetoothIcon !== undefined)
@@ -996,6 +1012,9 @@ Item {
                         onShowInGbChanged: (sectionId, index, enabled) => {
                             widgetsTab.handleShowInGbChanged(sectionId, index, enabled);
                         }
+                        onDiskUsageModeChanged: (sectionId, widgetIndex, mode) => {
+                            widgetsTab.handleDiskUsageModeChanged(sectionId, widgetIndex, mode);
+                        }
                         onCompactModeChanged: (widgetId, value) => {
                             widgetsTab.handleCompactModeChanged(sectionId, widgetId, value);
                         }
@@ -1057,6 +1076,9 @@ Item {
                         onShowInGbChanged: (sectionId, index, enabled) => {
                             widgetsTab.handleShowInGbChanged(sectionId, index, enabled);
                         }
+                        onDiskUsageModeChanged: (sectionId, widgetIndex, mode) => {
+                            widgetsTab.handleDiskUsageModeChanged(sectionId, widgetIndex, mode);
+                        }
                         onCompactModeChanged: (widgetId, value) => {
                             widgetsTab.handleCompactModeChanged(sectionId, widgetId, value);
                         }
@@ -1117,6 +1139,9 @@ Item {
                         }
                         onShowInGbChanged: (sectionId, index, enabled) => {
                             widgetsTab.handleShowInGbChanged(sectionId, index, enabled);
+                        }
+                        onDiskUsageModeChanged: (sectionId, widgetIndex, mode) => {
+                            widgetsTab.handleDiskUsageModeChanged(sectionId, widgetIndex, mode);
                         }
                         onCompactModeChanged: (widgetId, value) => {
                             widgetsTab.handleCompactModeChanged(sectionId, widgetId, value);

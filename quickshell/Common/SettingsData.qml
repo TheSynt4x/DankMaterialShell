@@ -14,7 +14,7 @@ import "settings/SettingsStore.js" as Store
 Singleton {
     id: root
 
-    readonly property int settingsConfigVersion: 5
+    readonly property int settingsConfigVersion: 6
 
     readonly property bool isGreeterMode: Quickshell.env("DMS_RUN_GREETER") === "1" || Quickshell.env("DMS_RUN_GREETER") === "true"
 
@@ -149,6 +149,7 @@ Singleton {
     property int mangoLayoutRadiusOverride: -1
     property int mangoLayoutBorderSize: -1
 
+    property int firstDayOfWeek: -1
     property bool use24HourClock: true
     property bool showSeconds: false
     property bool padHours12Hour: false
@@ -165,6 +166,24 @@ Singleton {
     property int modalCustomAnimationDuration: 150
     property bool enableRippleEffects: true
     onEnableRippleEffectsChanged: saveSettings()
+    property bool m3ElevationEnabled: true
+    onM3ElevationEnabledChanged: saveSettings()
+    property int m3ElevationIntensity: 12
+    onM3ElevationIntensityChanged: saveSettings()
+    property int m3ElevationOpacity: 30
+    onM3ElevationOpacityChanged: saveSettings()
+    property string m3ElevationColorMode: "default"
+    onM3ElevationColorModeChanged: saveSettings()
+    property string m3ElevationLightDirection: "top"
+    onM3ElevationLightDirectionChanged: saveSettings()
+    property string m3ElevationCustomColor: "#000000"
+    onM3ElevationCustomColorChanged: saveSettings()
+    property bool modalElevationEnabled: true
+    onModalElevationEnabledChanged: saveSettings()
+    property bool popoutElevationEnabled: true
+    onPopoutElevationEnabledChanged: saveSettings()
+    property bool barElevationEnabled: true
+    onBarElevationEnabledChanged: saveSettings()
     property string wallpaperFillMode: "Fill"
     property bool blurredWallpaperLayer: false
     property bool blurWallpaperOnOverview: false
@@ -294,6 +313,8 @@ Singleton {
     property string centeringMode: "index"
     property string clockDateFormat: ""
     property string lockDateFormat: ""
+    property bool greeterRememberLastSession: true
+    property bool greeterRememberLastUser: true
     property int mediaSize: 1
 
     property string appLauncherViewMode: "list"
@@ -494,9 +515,15 @@ Singleton {
     property bool enableFprint: false
     property int maxFprintTries: 15
     property bool fprintdAvailable: false
+    property bool enableU2f: false
+    property string u2fMode: "or"
+    property bool u2fAvailable: false
     property string lockScreenActiveMonitor: "all"
     property string lockScreenInactiveColor: "#000000"
     property int lockScreenNotificationMode: 0
+    property bool lockScreenVideoEnabled: false
+    property string lockScreenVideoPath: ""
+    property bool lockScreenVideoCycling: false
     property bool hideBrightnessSlider: false
 
     property int notificationTimeoutLow: 5000
@@ -575,7 +602,7 @@ Singleton {
             "maximizeWidgetIcons": false,
             "maximizeWidgetText": false,
             "removeWidgetPadding": false,
-            "widgetPadding": 12,
+            "widgetPadding": 8,
             "gothCornersEnabled": false,
             "gothCornerRadiusOverride": false,
             "gothCornerRadiusValue": 12,
@@ -602,7 +629,7 @@ Singleton {
             "scrollYBehavior": "workspace",
             "shadowIntensity": 0,
             "shadowOpacity": 60,
-            "shadowColorMode": "text",
+            "shadowColorMode": "default",
             "shadowCustomColor": "#000000",
             "clickThrough": false
         }
@@ -982,6 +1009,7 @@ Singleton {
             loadSettings();
             initializeListModels();
             Processes.detectFprintd();
+            Processes.detectU2f();
             Processes.checkPluginSettings();
         }
     }
@@ -1129,7 +1157,7 @@ Singleton {
             "updateCompositorLayout": updateCompositorLayout,
             "applyStoredIconTheme": applyStoredIconTheme,
             "updateBarConfigs": updateBarConfigs,
-            "updateCompositorCursor": updateCompositorCursor
+            "updateCompositorCursor": updateCompositorCursor,
         })
 
     function set(key, value) {

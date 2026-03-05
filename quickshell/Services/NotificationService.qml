@@ -19,6 +19,7 @@ Singleton {
     readonly property string historyFile: Paths.strip(Paths.cache) + "/notification_history.json"
     readonly property string imageCacheDir: Paths.strip(Paths.cache) + "/notification_images"
     property bool historyLoaded: false
+    property int historyEntryCounter: 0
 
     property list<NotifWrapper> notificationQueue: []
     property list<NotifWrapper> visibleNotifications: []
@@ -73,6 +74,12 @@ Singleton {
         onTriggered: root.performSaveHistory()
     }
 
+    function _makeHistoryEntryId(sourceId, timestamp) {
+        historyEntryCounter += 1;
+        const safeSource = sourceId && sourceId !== "" ? sourceId : "notification";
+        return safeSource + "_" + (timestamp || Date.now()) + "_" + historyEntryCounter;
+    }
+
     function getImageCachePath(wrapper) {
         const ts = wrapper.time ? wrapper.time.getTime() : Date.now();
         const id = wrapper.notification?.id?.toString() || "0";
@@ -80,12 +87,13 @@ Singleton {
     }
 
     function updateHistoryImage(wrapperId, imagePath) {
-        const idx = historyList.findIndex(n => n.id === wrapperId);
+        const idx = historyList.findIndex(n => n.sourceNotificationId === wrapperId || n.id === wrapperId);
         if (idx < 0)
             return;
         const item = historyList[idx];
         const updated = {
             id: item.id,
+            sourceNotificationId: item.sourceNotificationId || item.id,
             summary: item.summary,
             body: item.body,
             htmlBody: item.htmlBody,
@@ -113,8 +121,11 @@ Singleton {
         } else if (imageUrl && !imageUrl.startsWith("image://qsimage/")) {
             persistableImage = imageUrl;
         }
+        const sourceNotificationId = wrapper.notification?.id?.toString() || "";
+        const timestamp = wrapper.time.getTime();
         const data = {
-            id: wrapper.notification?.id?.toString() || Date.now().toString(),
+            id: _makeHistoryEntryId(sourceNotificationId, timestamp),
+            sourceNotificationId: sourceNotificationId,
             summary: wrapper.summary || "",
             body: wrapper.body || "",
             htmlBody: wrapper.htmlBody || wrapper.body || "",
@@ -122,7 +133,7 @@ Singleton {
             appIcon: wrapper.appIcon || "",
             image: persistableImage,
             urgency: urg,
-            timestamp: wrapper.time.getTime(),
+            timestamp: timestamp,
             desktopEntry: wrapper.desktopEntry || ""
         };
         let newList = [data, ...historyList];
@@ -152,15 +163,30 @@ Singleton {
             const now = Date.now();
             const maxAgeMs = maxAgeDays > 0 ? maxAgeDays * 24 * 60 * 60 * 1000 : 0;
             const loaded = [];
+            const seenIds = {};
+            let needsRewrite = false;
 
             for (const item of historyAdapter.notifications || []) {
                 if (maxAgeMs > 0 && (now - item.timestamp) > maxAgeMs)
                     continue;
                 const urg = typeof item.urgency === "number" ? item.urgency : 1;
                 const body = item.body || "";
-                const htmlBody = item.htmlBody || _resolveHtmlBody(body);
+                let htmlBody = item.htmlBody || _resolveHtmlBody(body);
+                if (htmlBody) {
+                    htmlBody = htmlBody.replace(/<img\b[^>]*>/gi, "");
+                }
+                const sourceNotificationId = (item.sourceNotificationId || item.id || "").toString();
+                let historyId = (item.id || "").toString();
+                if (!historyId || seenIds[historyId]) {
+                    historyId = _makeHistoryEntryId(sourceNotificationId, item.timestamp || now);
+                    needsRewrite = true;
+                }
+                if (!item.sourceNotificationId)
+                    needsRewrite = true;
+                seenIds[historyId] = true;
                 loaded.push({
-                    id: item.id || "",
+                    id: historyId,
+                    sourceNotificationId: sourceNotificationId,
                     summary: item.summary || "",
                     body: body,
                     htmlBody: htmlBody,
@@ -174,7 +200,7 @@ Singleton {
             }
             historyList = loaded;
             historyLoaded = true;
-            if (maxAgeMs > 0 && loaded.length !== (historyAdapter.notifications || []).length)
+            if ((maxAgeMs > 0 && loaded.length !== (historyAdapter.notifications || []).length) || needsRewrite)
                 saveHistory();
         } catch (e) {
             console.warn("NotificationService: load history failed:", e);
@@ -249,7 +275,7 @@ Singleton {
         if (daysDiff === 0)
             return timeStr;
         try {
-            const localeName = (typeof Qt !== "undefined" && Qt.locale) ? Qt.locale().name : "en-US";
+            const localeName = (typeof I18n !== "undefined" && I18n.locale) ? I18n.locale().name : "en-US";
             const weekday = date.toLocaleDateString(localeName, {
                 weekday: "long"
             });
@@ -692,7 +718,7 @@ Singleton {
             }
 
             try {
-                const localeName = (typeof Qt !== "undefined" && Qt.locale) ? Qt.locale().name : "en-US";
+                const localeName = (typeof I18n !== "undefined" && I18n.locale) ? I18n.locale().name : "en-US";
                 const weekday = time.toLocaleDateString(localeName, {
                     weekday: "long"
                 });
@@ -720,8 +746,8 @@ Singleton {
         }
 
         required property Notification notification
-        readonly property string summary: notification?.summary ?? ""
-        readonly property string body: notification?.body ?? ""
+        readonly property string summary: (notification?.summary ?? "").replace(/<img\b[^>]*>/gi, "")
+        readonly property string body: (notification?.body ?? "").replace(/<img\b[^>]*>/gi, "")
         readonly property string htmlBody: root._resolveHtmlBody(body)
         readonly property string appIcon: notification?.appIcon ?? ""
         readonly property string appName: {
@@ -978,22 +1004,34 @@ Singleton {
     function _resolveHtmlBody(body) {
         if (!body)
             return "";
-        if (/<\/?[a-z][\s\S]*>/i.test(body))
-            return body;
 
-        // Decode percent-encoded URLs (e.g. https%3A%2F%2F → https://)
-        body = body.replace(/\bhttps?%3A%2F%2F[^\s]+/gi, match => {
-            try { return decodeURIComponent(match); }
-            catch (e) { return match; }
-        });
+        let result = body;
 
-        if (/&(#\d+|#x[0-9a-fA-F]+|[a-zA-Z][a-zA-Z0-9]+);/.test(body)) {
-            const decoded = _decodeEntities(body);
-            if (/<\/?[a-z][\s\S]*>/i.test(decoded))
-                return decoded;
-            return Markdown2Html.markdownToHtml(decoded);
+        if (/<\/?[a-z][\s\S]*>/i.test(body)) {
+            result = body;
+        } else {
+            // Decode percent-encoded URLs (e.g. https%3A%2F%2F → https://)
+            let processed = body.replace(/\bhttps?%3A%2F%2F[^\s]+/gi, match => {
+                try {
+                    return decodeURIComponent(match);
+                } catch (e) {
+                    return match;
+                }
+            });
+
+            if (/&(#\d+|#x[0-9a-fA-F]+|[a-zA-Z][a-zA-Z0-9]+);/.test(processed)) {
+                const decoded = _decodeEntities(processed);
+                if (/<\/?[a-z][\s\S]*>/i.test(decoded))
+                    result = decoded;
+                else
+                    result = Markdown2Html.markdownToHtml(decoded);
+            } else {
+                result = Markdown2Html.markdownToHtml(processed);
+            }
         }
-        return Markdown2Html.markdownToHtml(body);
+
+        // Strip out image tags to prevent IP tracking
+        return result.replace(/<img\b[^>]*>/gi, "");
     }
 
     function getGroupKey(wrapper) {

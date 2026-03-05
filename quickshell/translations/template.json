@@ -770,6 +770,13 @@
     "comment": ""
   },
   {
+    "term": "Add by Address",
+    "translation": "",
+    "context": "Toggle button to manually add a printer by IP or hostname",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Adjust the number of columns in grid view mode.",
     "translation": "",
     "context": "",
@@ -1995,6 +2002,13 @@
     "comment": ""
   },
   {
+    "term": "Caps Lock is on",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Center Section",
     "translation": "",
     "context": "",
@@ -2038,6 +2052,13 @@
   },
   {
     "term": "Change bar appearance",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Change the locale used by the DMS interface.",
     "translation": "",
     "context": "",
     "reference": "",
@@ -2828,6 +2849,13 @@
     "comment": ""
   },
   {
+    "term": "Connection failed",
+    "translation": "",
+    "context": "Status message when test connection to printer fails",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Contains",
     "translation": "",
     "context": "notification rule match type option",
@@ -3109,6 +3137,13 @@
   },
   {
     "term": "Current Items",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Current Locale",
     "translation": "",
     "context": "",
     "reference": "",
@@ -3829,6 +3864,13 @@
     "comment": ""
   },
   {
+    "term": "Discover Devices",
+    "translation": "",
+    "context": "Toggle button to scan for printers via mDNS/Avahi",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Disk",
     "translation": "",
     "context": "",
@@ -3844,6 +3886,13 @@
   },
   {
     "term": "Disk Usage",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Disk Usage Display",
     "translation": "",
     "context": "",
     "reference": "",
@@ -5355,6 +5404,20 @@
     "comment": ""
   },
   {
+    "term": "Folder",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Folders",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Follow Monitor Focus",
     "translation": "",
     "context": "",
@@ -5671,6 +5734,13 @@
   },
   {
     "term": "Good",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Got It",
     "translation": "",
     "context": "",
     "reference": "",
@@ -6111,6 +6181,13 @@
     "comment": ""
   },
   {
+    "term": "Host",
+    "translation": "",
+    "context": "Label for printer IP address or hostname input field",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Hostname",
     "translation": "",
     "context": "system info label",
@@ -6202,6 +6279,13 @@
     "comment": ""
   },
   {
+    "term": "IP address or hostname",
+    "translation": "",
+    "context": "Placeholder text for manual printer address input",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "ISO Date",
     "translation": "",
     "context": "date format option",
@@ -6210,6 +6294,13 @@
   },
   {
     "term": "Icon",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Icon Scale",
     "translation": "",
     "context": "",
     "reference": "",
@@ -6916,6 +7007,20 @@
     "comment": ""
   },
   {
+    "term": "Locale",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Locale Settings",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Location",
     "translation": "",
     "context": "theme auto mode tab",
@@ -7295,6 +7400,20 @@
   },
   {
     "term": "Maximize Detection",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Maximize Widget Icons",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Maximize Widget Text",
     "translation": "",
     "context": "",
     "reference": "",
@@ -8274,6 +8393,13 @@
     "comment": ""
   },
   {
+    "term": "No folders found",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "No hidden apps.",
     "translation": "",
     "context": "",
@@ -8870,6 +8996,13 @@
   },
   {
     "term": "Open in Browser",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Open in terminal",
     "translation": "",
     "context": "",
     "reference": "",
@@ -9555,6 +9688,13 @@
     "comment": ""
   },
   {
+    "term": "Port",
+    "translation": "",
+    "context": "Label for printer port number input field",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Portal",
     "translation": "",
     "context": "wallpaper transition option",
@@ -9814,6 +9954,13 @@
     "comment": ""
   },
   {
+    "term": "Printer reachable",
+    "translation": "",
+    "context": "Status message when test connection to printer succeeds",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Printers",
     "translation": "",
     "context": "",
@@ -10045,6 +10192,20 @@
     "comment": ""
   },
   {
+    "term": "Read Full Release Notes",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Read Full Release Notes",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Read:",
     "translation": "",
     "context": "disk read label",
@@ -10136,7 +10297,28 @@
     "comment": ""
   },
   {
+    "term": "Remaining",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Remaining / Total",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Remove",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Remove Widget Padding",
     "translation": "",
     "context": "",
     "reference": "",
@@ -10542,6 +10724,13 @@
     "comment": ""
   },
   {
+    "term": "Save QR Code",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Save and switch between display configurations",
     "translation": "",
     "context": "",
@@ -10633,6 +10822,13 @@
     "comment": ""
   },
   {
+    "term": "Scale DankBar icon sizes independently",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Scale all font sizes throughout the shell",
     "translation": "",
     "context": "",
@@ -10662,6 +10858,13 @@
   },
   {
     "term": "Science",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Score",
     "translation": "",
     "context": "",
     "reference": "",
@@ -11473,6 +11676,13 @@
     "comment": ""
   },
   {
+    "term": "Show Memory in GB",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Show Network",
     "translation": "",
     "context": "",
@@ -11585,6 +11795,13 @@
     "comment": ""
   },
   {
+    "term": "Show Swap",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Show System Date",
     "translation": "",
     "context": "Enable system date display on the lock screen window",
@@ -11684,6 +11901,13 @@
   },
   {
     "term": "Show drop shadow on notification popups",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Show in GB",
     "translation": "",
     "context": "",
     "reference": "",
@@ -12425,6 +12649,13 @@
     "comment": ""
   },
   {
+    "term": "Test Connection",
+    "translation": "",
+    "context": "Button to test connection to a printer by IP address",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Test Page",
     "translation": "",
     "context": "",
@@ -12435,6 +12666,13 @@
     "term": "Test page sent to printer",
     "translation": "",
     "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Testing...",
+    "translation": "",
+    "context": "Button state while testing printer connection",
     "reference": "",
     "comment": ""
   },
@@ -12838,6 +13076,13 @@
     "comment": ""
   },
   {
+    "term": "Total",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Total Jobs",
     "translation": "",
     "context": "",
@@ -12895,6 +13140,13 @@
   },
   {
     "term": "Trigger: %1",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Trust",
     "translation": "",
     "context": "",
     "reference": "",
@@ -13168,6 +13420,13 @@
   },
   {
     "term": "Untitled",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Untrust",
     "translation": "",
     "context": "",
     "reference": "",
@@ -13755,6 +14014,13 @@
     "comment": ""
   },
   {
+    "term": "What's New",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "When enabled, apps are sorted alphabetically. When disabled, apps are sorted by usage frequency.",
     "translation": "",
     "context": "",
@@ -13805,6 +14071,13 @@
   },
   {
     "term": "WiFi Device",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "WiFi QR code for ",
     "translation": "",
     "context": "",
     "reference": "",
@@ -14273,6 +14546,13 @@
     "comment": ""
   },
   {
+    "term": "ext",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "featured",
     "translation": "",
     "context": "",
@@ -14533,6 +14813,13 @@
   },
   {
     "term": "• yyyy - Year (2024)",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "↑/↓: Nav • Space: Expand • Enter: Action/Expand • E: Text",
     "translation": "",
     "context": "",
     "reference": "",

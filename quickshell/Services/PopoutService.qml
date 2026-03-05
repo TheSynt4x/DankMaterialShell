@@ -9,20 +9,30 @@ Singleton {
     id: root
 
     property var controlCenterPopout: null
+    property var controlCenterLoader: null
     property var notificationCenterPopout: null
+    property var notificationCenterLoader: null
     property var appDrawerPopout: null
+    property var appDrawerLoader: null
     property var processListPopout: null
+    property var processListPopoutLoader: null
     property var dankDashPopout: null
     property var dankDashPopoutLoader: null
     property var batteryPopout: null
+    property var batteryPopoutLoader: null
     property var vpnPopout: null
+    property var vpnPopoutLoader: null
     property var systemUpdatePopout: null
     property var widgetContextMenuPopout: null
+    property var systemUpdateLoader: null
+    property var layoutPopout: null
+    property var layoutPopoutLoader: null
+    property var clipboardHistoryPopout: null
+    property var clipboardHistoryPopoutLoader: null
 
     property var settingsModal: null
     property var settingsModalLoader: null
     property var clipboardHistoryModal: null
-    property var clipboardHistoryPopout: null
     property var dankLauncherV2Modal: null
     property var dankLauncherV2ModalLoader: null
     property var powerMenuModal: null
@@ -63,6 +73,13 @@ Singleton {
         controlCenterPopout?.close();
     }
 
+    function unloadControlCenter() {
+        if (!controlCenterLoader)
+            return;
+        controlCenterPopout = null;
+        controlCenterLoader.active = false;
+    }
+
     function toggleControlCenter(x, y, width, section, screen) {
         if (controlCenterPopout) {
             setPosition(controlCenterPopout, x, y, width, section, screen);
@@ -79,6 +96,13 @@ Singleton {
 
     function closeNotificationCenter() {
         notificationCenterPopout?.close();
+    }
+
+    function unloadNotificationCenter() {
+        if (!notificationCenterLoader)
+            return;
+        notificationCenterPopout = null;
+        notificationCenterLoader.active = false;
     }
 
     function toggleNotificationCenter(x, y, width, section, screen) {
@@ -99,6 +123,13 @@ Singleton {
         appDrawerPopout?.close();
     }
 
+    function unloadAppDrawer() {
+        if (!appDrawerLoader)
+            return;
+        appDrawerPopout = null;
+        appDrawerLoader.active = false;
+    }
+
     function toggleAppDrawer(x, y, width, section, screen) {
         if (appDrawerPopout) {
             setPosition(appDrawerPopout, x, y, width, section, screen);
@@ -115,6 +146,13 @@ Singleton {
 
     function closeProcessList() {
         processListPopout?.close();
+    }
+
+    function unloadProcessListPopout() {
+        if (!processListPopoutLoader)
+            return;
+        processListPopout = null;
+        processListPopoutLoader.active = false;
     }
 
     function toggleProcessList(x, y, width, section, screen) {
@@ -163,6 +201,13 @@ Singleton {
     function closeDankDash() {
         if (dankDashPopout)
             dankDashPopout.dashVisible = false;
+    }
+
+    function unloadDankDash() {
+        if (!dankDashPopoutLoader)
+            return;
+        dankDashPopout = null;
+        dankDashPopoutLoader.active = false;
     }
 
     function toggleDankDash(tabIndex, x, y, width, section, screen) {
@@ -221,6 +266,13 @@ Singleton {
         batteryPopout?.close();
     }
 
+    function unloadBattery() {
+        if (!batteryPopoutLoader)
+            return;
+        batteryPopout = null;
+        batteryPopoutLoader.active = false;
+    }
+
     function toggleBattery(x, y, width, section, screen) {
         if (batteryPopout) {
             setPosition(batteryPopout, x, y, width, section, screen);
@@ -239,6 +291,13 @@ Singleton {
         vpnPopout?.close();
     }
 
+    function unloadVpn() {
+        if (!vpnPopoutLoader)
+            return;
+        vpnPopout = null;
+        vpnPopoutLoader.active = false;
+    }
+
     function toggleVpn(x, y, width, section, screen) {
         if (vpnPopout) {
             setPosition(vpnPopout, x, y, width, section, screen);
@@ -255,6 +314,13 @@ Singleton {
 
     function closeSystemUpdate() {
         systemUpdatePopout?.close();
+    }
+
+    function unloadSystemUpdate() {
+        if (!systemUpdateLoader)
+            return;
+        systemUpdatePopout = null;
+        systemUpdateLoader.active = false;
     }
 
     function toggleSystemUpdate(x, y, width, section, screen) {
@@ -428,6 +494,20 @@ Singleton {
 
     function closeClipboardHistory() {
         clipboardHistoryModal?.close();
+    }
+
+    function unloadClipboardHistoryPopout() {
+        if (!clipboardHistoryPopoutLoader)
+            return;
+        clipboardHistoryPopout = null;
+        clipboardHistoryPopoutLoader.active = false;
+    }
+
+    function unloadLayoutPopout() {
+        if (!layoutPopoutLoader)
+            return;
+        layoutPopout = null;
+        layoutPopoutLoader.active = false;
     }
 
     property bool _dankLauncherV2WantsOpen: false

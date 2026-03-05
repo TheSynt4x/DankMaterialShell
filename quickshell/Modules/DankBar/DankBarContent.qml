@@ -565,10 +565,7 @@ Item {
             axis: barWindow.axis
             section: topBarContent.getWidgetSection(parent)
             parentScreen: barWindow.screen
-            popoutTarget: {
-                clipboardHistoryPopoutLoader.active = true;
-                return clipboardHistoryPopoutLoader.item;
-            }
+            popoutTarget: clipboardHistoryPopoutLoader.item ?? null
 
             function openClipboardPopout(initialTab) {
                 clipboardHistoryPopoutLoader.active = true;
@@ -763,10 +760,7 @@ Item {
             barThickness: barWindow.effectiveBarThickness
             widgetThickness: barWindow.widgetThickness
             section: topBarContent.getWidgetSection(parent) || "center"
-            popoutTarget: {
-                dankDashPopoutLoader.active = true;
-                return dankDashPopoutLoader.item;
-            }
+            popoutTarget: dankDashPopoutLoader.item ?? null
             parentScreen: barWindow.screen
 
             Component.onCompleted: {
@@ -830,10 +824,7 @@ Item {
             barThickness: barWindow.effectiveBarThickness
             widgetThickness: barWindow.widgetThickness
             section: topBarContent.getWidgetSection(parent) || "center"
-            popoutTarget: {
-                dankDashPopoutLoader.active = true;
-                return dankDashPopoutLoader.item;
-            }
+            popoutTarget: dankDashPopoutLoader.item ?? null
             parentScreen: barWindow.screen
             onClicked: {
                 dankDashPopoutLoader.active = true;
@@ -885,10 +876,7 @@ Item {
             barThickness: barWindow.effectiveBarThickness
             widgetThickness: barWindow.widgetThickness
             section: topBarContent.getWidgetSection(parent) || "center"
-            popoutTarget: {
-                dankDashPopoutLoader.active = true;
-                return dankDashPopoutLoader.item;
-            }
+            popoutTarget: dankDashPopoutLoader.item ?? null
             parentScreen: barWindow.screen
             onClicked: {
                 dankDashPopoutLoader.active = true;
@@ -972,10 +960,7 @@ Item {
             widgetThickness: barWindow.widgetThickness
             axis: barWindow.axis
             section: topBarContent.getWidgetSection(parent) || "right"
-            popoutTarget: {
-                processListPopoutLoader.active = true;
-                return processListPopoutLoader.item;
-            }
+            popoutTarget: processListPopoutLoader.item ?? null
             parentScreen: barWindow.screen
             widgetData: parent.widgetData
             onCpuClicked: {
@@ -1008,10 +993,7 @@ Item {
             widgetThickness: barWindow.widgetThickness
             axis: barWindow.axis
             section: topBarContent.getWidgetSection(parent) || "right"
-            popoutTarget: {
-                processListPopoutLoader.active = true;
-                return processListPopoutLoader.item;
-            }
+            popoutTarget: processListPopoutLoader.item ?? null
             parentScreen: barWindow.screen
             widgetData: parent.widgetData
             onRamClicked: {
@@ -1058,10 +1040,7 @@ Item {
             widgetThickness: barWindow.widgetThickness
             axis: barWindow.axis
             section: topBarContent.getWidgetSection(parent) || "right"
-            popoutTarget: {
-                processListPopoutLoader.active = true;
-                return processListPopoutLoader.item;
-            }
+            popoutTarget: processListPopoutLoader.item ?? null
             parentScreen: barWindow.screen
             widgetData: parent.widgetData
             onCpuTempClicked: {
@@ -1094,10 +1073,7 @@ Item {
             widgetThickness: barWindow.widgetThickness
             axis: barWindow.axis
             section: topBarContent.getWidgetSection(parent) || "right"
-            popoutTarget: {
-                processListPopoutLoader.active = true;
-                return processListPopoutLoader.item;
-            }
+            popoutTarget: processListPopoutLoader.item ?? null
             parentScreen: barWindow.screen
             widgetData: parent.widgetData
             onGpuTempClicked: {
@@ -1138,10 +1114,7 @@ Item {
             barThickness: barWindow.effectiveBarThickness
             axis: barWindow.axis
             section: topBarContent.getWidgetSection(parent) || "right"
-            popoutTarget: {
-                notificationCenterLoader.active = true;
-                return notificationCenterLoader.item;
-            }
+            popoutTarget: notificationCenterLoader.item ?? null
             parentScreen: barWindow.screen
             onClicked: {
                 notificationCenterLoader.active = true;
@@ -1176,10 +1149,7 @@ Item {
             section: topBarContent.getWidgetSection(parent) || "right"
             barSpacing: barConfig?.spacing ?? 4
             barConfig: topBarContent.barConfig
-            popoutTarget: {
-                batteryPopoutLoader.active = true;
-                return batteryPopoutLoader.item;
-            }
+            popoutTarget: batteryPopoutLoader.item ?? null
             parentScreen: barWindow.screen
             onToggleBatteryPopup: {
                 batteryPopoutLoader.active = true;
@@ -1212,10 +1182,7 @@ Item {
             barThickness: barWindow.effectiveBarThickness
             axis: barWindow.axis
             section: topBarContent.getWidgetSection(parent) || "center"
-            popoutTarget: {
-                layoutPopoutLoader.active = true;
-                return layoutPopoutLoader.item;
-            }
+            popoutTarget: layoutPopoutLoader.item ?? null
             parentScreen: barWindow.screen
             onToggleLayoutPopup: {
                 layoutPopoutLoader.active = true;
@@ -1248,10 +1215,7 @@ Item {
             barSpacing: barConfig?.spacing ?? 4
             barConfig: topBarContent.barConfig
             isAutoHideBar: topBarContent.barConfig?.autoHide ?? false
-            popoutTarget: {
-                vpnPopoutLoader.active = true;
-                return vpnPopoutLoader.item;
-            }
+            popoutTarget: vpnPopoutLoader.item ?? null
             parentScreen: barWindow.screen
             onToggleVpnPopup: {
                 vpnPopoutLoader.active = true;
@@ -1285,10 +1249,7 @@ Item {
             barThickness: barWindow.effectiveBarThickness
             axis: barWindow.axis
             section: topBarContent.getWidgetSection(parent) || "right"
-            popoutTarget: {
-                controlCenterLoader.active = true;
-                return controlCenterLoader.item;
-            }
+            popoutTarget: controlCenterLoader.item ?? null
             parentScreen: barWindow.screen
             screenName: barWindow.screen?.name || ""
             screenModel: barWindow.screen?.model || ""
@@ -1438,10 +1399,7 @@ Item {
             barThickness: barWindow.effectiveBarThickness
             axis: barWindow.axis
             section: topBarContent.getWidgetSection(parent) || "right"
-            popoutTarget: {
-                systemUpdateLoader.active = true;
-                return systemUpdateLoader.item;
-            }
+            popoutTarget: systemUpdateLoader.item ?? null
             parentScreen: barWindow.screen
             onClicked: {
                 systemUpdateLoader.active = true;

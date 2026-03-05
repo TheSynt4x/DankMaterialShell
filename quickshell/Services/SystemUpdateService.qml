@@ -44,24 +44,26 @@ Singleton {
         }
     }
 
-    readonly property var archBasedPMSettings: {
-        "listUpdatesSettings": {
-            "params": ["-Qu"],
-            "correctExitCodes": [0, 1]   // Exit code 0 = updates available, 1 = no updates
-        },
-        "upgradeSettings": {
-            "params": ["-Syu"],
-            "requiresSudo": false
-        },
-        "parserSettings": {
-            "lineRegex": /^(\S+)\s+([^\s]+)\s+->\s+([^\s]+)$/,
-            "entryProducer": function (match) {
-                return {
-                    "name": match[1],
-                    "currentVersion": match[2],
-                    "newVersion": match[3],
-                    "description": `${match[1]} ${match[2]} → ${match[3]}`
-                };
+    readonly property var archBasedPMSettings: function(requiresSudo) {
+        return {
+            "listUpdatesSettings": {
+                "params": ["-Qu"],
+                "correctExitCodes": [0, 1]   // Exit code 0 = updates available, 1 = no updates
+            },
+            "upgradeSettings": {
+                "params": ["-Syu"],
+                "requiresSudo": requiresSudo
+            },
+            "parserSettings": {
+                "lineRegex": /^(\S+)\s+([^\s]+)\s+->\s+([^\s]+)$/,
+                "entryProducer": function (match) {
+                    return {
+                        "name": match[1],
+                        "currentVersion": match[2],
+                        "newVersion": match[3],
+                        "description": `${match[1]} ${match[2]} → ${match[3]}`
+                    };
+                }
             }
         }
     }
@@ -92,8 +94,9 @@ Singleton {
         "checkupdates": archBasedUCSettings
     }
     readonly property var packageManagerParams: {
-        "yay": archBasedPMSettings,
-        "paru": archBasedPMSettings,
+        "yay": archBasedPMSettings(false),
+        "paru": archBasedPMSettings(false),
+        "pacman": archBasedPMSettings(true),
         "dnf": fedoraBasedPMSettings
     }
     readonly property list<string> supportedDistributions: ["arch", "artix", "cachyos", "manjaro", "endeavouros", "fedora"]
@@ -182,7 +185,7 @@ Singleton {
 
     Process {
         id: pkgManagerDetection
-        command: ["sh", "-c", "which paru || which yay || which dnf"]
+        command: ["sh", "-c", "which paru || which yay || which pacman || which dnf"]
 
         onExited: exitCode => {
             if (exitCode === 0) {
@@ -259,7 +262,7 @@ Singleton {
         const terminal = Quickshell.env("TERMINAL") || "xterm";
 
         if (SettingsData.updaterUseCustomCommand && SettingsData.updaterCustomCommand.length > 0) {
-            const updateCommand = `${SettingsData.updaterCustomCommand} && echo "Updates complete! Press Enter to close..." && read`;
+            const updateCommand = `${SettingsData.updaterCustomCommand} && echo -n "Updates complete! " ; echo "Press Enter to close..." && read`;
             const termClass = SettingsData.updaterTerminalAdditionalParams;
 
             var finalCommand = [terminal];
@@ -274,7 +277,7 @@ Singleton {
         } else {
             const params = packageManagerParams[pkgManager].upgradeSettings.params.join(" ");
             const sudo = packageManagerParams[pkgManager].upgradeSettings.requiresSudo ? "sudo" : "";
-            const updateCommand = `${sudo} ${pkgManager} ${params} && echo "Updates complete! Press Enter to close..." && read`;
+            const updateCommand = `${sudo} ${pkgManager} ${params} && echo -n "Updates complete! " ; echo "Press Enter to close..." && read`;
 
             updater.command = [terminal, "-e", "sh", "-c", updateCommand];
         }

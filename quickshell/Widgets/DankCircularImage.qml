@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Window
 import QtQuick.Effects
 import qs.Common
 import qs.Widgets
@@ -18,9 +19,30 @@ Rectangle {
 
     signal imageSaved(string filePath)
 
+    property string _pendingSavePath: ""
+    property var _attachedWindow: root.Window.window
+
+    on_AttachedWindowChanged: {
+        if (_attachedWindow && _pendingSavePath !== "") {
+            Qt.callLater(function () {
+                if (root._pendingSavePath !== "") {
+                    let path = root._pendingSavePath;
+                    root._pendingSavePath = "";
+                    root.saveImageToFile(path);
+                }
+            });
+        }
+    }
+
     function saveImageToFile(filePath) {
         if (activeImage.status !== Image.Ready)
             return false;
+
+        if (!activeImage.Window.window) {
+            _pendingSavePath = filePath;
+            return true;
+        }
+
         activeImage.grabToImage(function (result) {
             if (result && result.saveToFile(filePath)) {
                 root.imageSaved(filePath);
@@ -59,6 +81,8 @@ Rectangle {
         mipmap: true
         cache: true
         visible: false
+        sourceSize.width: Math.max(width * 2, 128)
+        sourceSize.height: Math.max(height * 2, 128)
         source: !root.shouldProbe ? root.imageSource : ""
     }
 
